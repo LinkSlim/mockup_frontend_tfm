@@ -191,7 +191,7 @@
 .image-wrapper {
   position: relative;
   width: 100%;
-  flex: 1;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -208,14 +208,12 @@
 }
 
 .xai-overlay.gradcam {
-  /* Grid de pixeles + Colores vivos para el mapa de calor */
+  /* Mapa de calor suavizado sin rejilla negra */
   background: 
-    repeating-linear-gradient(to right, transparent, transparent 18px, rgba(0, 0, 0, 0.5) 18px, rgba(0, 0, 0, 0.5) 20px),
-    repeating-linear-gradient(to bottom, transparent, transparent 18px, rgba(0, 0, 0, 0.5) 18px, rgba(0, 0, 0, 0.5) 20px),
     radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.95) 0%, rgba(255, 165, 0, 0.85) 25%, rgba(255, 255, 0, 0.7) 45%, rgba(0, 255, 0, 0.3) 70%, transparent 90%);
   mix-blend-mode: hard-light;
-  /* Animación con 'steps' para imitar un renderizado por bloques pixelados */
-  animation: pulse-heatmap 1.5s infinite alternate steps(5);
+  /* Animación pulsante */
+  animation: pulse-heatmap 1.5s infinite alternate;
 }
 
 @keyframes pulse-heatmap {

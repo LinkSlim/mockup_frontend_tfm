@@ -45,8 +45,8 @@ export default function ResultCard({ result, image, onReset }) {
     const f2y = Math.random() * 0.4 + 0.1;
     const p2 = Math.random() * Math.PI * 2;
 
-    for (let y = 0; y < 16; y++) {
-      for (let x = 0; x < 16; x++) {
+    for (let y = 0; y < 8; y++) {
+      for (let x = 0; x < 8; x++) {
         // Combinar ondas senoidales bidimensionales para transiciones suaves
         let val1 = Math.sin(x * f1x + y * f1y + p1);
         let val2 = Math.cos(x * f2x - y * f2y + p2);
@@ -140,7 +140,7 @@ export default function ResultCard({ result, image, onReset }) {
               </div>
             )}
             {viewMode === 'xai' && xaiMethod === 'shap' && (
-              <div className="xai-overlay shap" style={{ display: 'grid', gridTemplateColumns: 'repeat(16, 1fr)', gridTemplateRows: 'repeat(16, 1fr)' }}>
+              <div className="xai-overlay shap" style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gridTemplateRows: 'repeat(8, 1fr)' }}>
                 {shapGrid.map((color, i) => (
                   <div key={i} style={{ backgroundColor: color }} />
                 ))}
