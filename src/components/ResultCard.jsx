@@ -146,6 +146,41 @@ export default function ResultCard({ result, image, onReset }) {
                 ))}
               </div>
             )}
+            
+            {viewMode === 'xai' && (xaiMethod === 'gradcam' || xaiMethod === 'shap') && (
+              <div className="xai-legend" style={{
+                position: 'absolute',
+                left: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '70%',
+                maxHeight: '200px',
+                width: '32px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                zIndex: 10,
+                backgroundColor: 'rgba(0, 0, 0, 0.65)',
+                padding: '8px 4px',
+                borderRadius: '6px',
+                color: 'white',
+                fontSize: '0.75rem',
+                justifyContent: 'space-between',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                backdropFilter: 'blur(2px)'
+              }}>
+                <span style={{ fontWeight: 'bold' }}>{xaiMethod === 'gradcam' ? '1' : '5'}</span>
+                <div style={{
+                  width: '12px',
+                  flex: 1,
+                  margin: '6px 0',
+                  background: 'linear-gradient(to top, rgba(0,0,128,1) 0%, rgba(0,0,255,1) 12.5%, rgba(0,255,255,1) 37.5%, rgba(255,255,0,1) 62.5%, rgba(255,0,0,1) 87.5%, rgba(128,0,0,1) 100%)',
+                  borderRadius: '2px',
+                  border: '1px solid rgba(255,255,255,0.4)'
+                }}></div>
+                <span style={{ fontWeight: 'bold' }}>{xaiMethod === 'gradcam' ? '0' : '-5'}</span>
+              </div>
+            )}
           </div>
         </div>
         
