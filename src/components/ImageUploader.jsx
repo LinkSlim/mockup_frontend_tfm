@@ -1,11 +1,17 @@
 import React, { useState, useRef } from 'react';
-import { UploadCloud, Image as ImageIcon } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, Send } from 'lucide-react';
 import './ImageUploader.css';
 
 export default function ImageUploader({ onImageSelect }) {
   const [isDragging, setIsDragging] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
+
+  // Form states
+  const [age, setAge] = useState('');
+  const [sex, setSex] = useState('');
+  const [location, setLocation] = useState('');
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -23,8 +29,7 @@ export default function ImageUploader({ onImageSelect }) {
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);
-      // Give UI a tiny moment to show preview before sending up
-      setTimeout(() => onImageSelect(file, reader.result), 600);
+      setSelectedFile(file);
     };
     reader.readAsDataURL(file);
   };
@@ -46,43 +51,112 @@ export default function ImageUploader({ onImageSelect }) {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (selectedFile && preview) {
+      onImageSelect(selectedFile, preview, { age, sex, location });
+    }
+  };
+
   return (
-    <div className="glass-panel animate-fade-in" style={{ padding: '2rem' }}>
-      <div 
-        className={`uploader-zone ${isDragging ? 'dragging' : ''} ${preview ? 'has-preview' : ''}`}
-        onDragEnter={handleDrag}
-        onDragLeave={handleDrag}
-        onDragOver={handleDrag}
-        onDrop={handleDrop}
-        onClick={() => fileInputRef.current?.click()}
-      >
-        <input 
-          type="file" 
-          ref={fileInputRef} 
-          style={{ display: 'none' }} 
-          accept="image/*" 
-          onChange={handleChange} 
-        />
-        
-        {preview ? (
-          <div className="preview-container">
-            <img src={preview} alt="Selected lesion" className="image-preview" />
-            <div className="preview-overlay">
-              <ImageIcon className="overlay-icon" />
-              <span>Procesando imagen...</span>
-            </div>
-          </div>
-        ) : (
+    <div className="glass-panel animate-fade-in" style={{ padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+      {!preview ? (
+        <div 
+          className={`uploader-zone ${isDragging ? 'dragging' : ''}`}
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+        >
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            style={{ display: 'none' }} 
+            accept="image/*" 
+            onChange={handleChange} 
+          />
           <div className="uploader-content">
             <div className="icon-circle">
               <UploadCloud size={40} className="upload-icon" />
             </div>
             <h3 className="uploader-title">Sube o arrastra la imagen</h3>
             <p className="uploader-desc">Archivos soportados: JPG, PNG, WEBP (hasta 10MB)</p>
-            <button className="btn btn-primary mt-4">Explorar archivos</button>
+            <button className="btn btn-primary mt-4" style={{ margin: '1rem auto 0', display: 'flex' }}>Explorar archivos</button>
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="form-container">
+          <div className="preview-mini" style={{ marginBottom: '1.5rem', borderRadius: '8px', overflow: 'hidden', height: '200px', border: '1px solid var(--color-border)' }}>
+            <img src={preview} alt="Selected lesion" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+          
+          <h3 style={{ marginBottom: '1.2rem', color: 'var(--color-text-main)', textAlign: 'center' }}>Datos Clínicos del Paciente</h3>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Edad (años)</label>
+                <input 
+                  type="number" 
+                  value={age} 
+                  onChange={(e) => setAge(e.target.value)} 
+                  required 
+                  min="0"
+                  max="120"
+                  style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
+                  placeholder="Ej. 45"
+                />
+              </div>
+              
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Sexo</label>
+                <select 
+                  value={sex} 
+                  onChange={(e) => setSex(e.target.value)} 
+                  required
+                  style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
+                >
+                  <option value="" style={{ color: 'black' }}>Seleccione...</option>
+                  <option value="m" style={{ color: 'black' }}>Masculino</option>
+                  <option value="f" style={{ color: 'black' }}>Femenino</option>
+                  <option value="o" style={{ color: 'black' }}>Otro</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Localización de la Lesión</label>
+              <select 
+                value={location} 
+                onChange={(e) => setLocation(e.target.value)} 
+                required 
+                style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
+              >
+                <option value="" style={{ color: 'black' }}>Seleccione...</option>
+                <option value="tronco" style={{ color: 'black' }}>Tronco</option>
+                <option value="espalda" style={{ color: 'black' }}>Espalda</option>
+                <option value="extremidad_superior" style={{ color: 'black' }}>Extremidad superior</option>
+                <option value="extremidad_inferior" style={{ color: 'black' }}>Extremidad inferior</option>
+                <option value="abdomen" style={{ color: 'black' }}>Abdomen</option>
+              </select>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <button 
+                type="button" 
+                className="btn btn-outline" 
+                onClick={() => { setPreview(null); setSelectedFile(null); }}
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-primary" style={{ flex: 2, display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                <Send size={18} /> Analizar Lesión
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
