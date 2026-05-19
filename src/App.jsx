@@ -42,7 +42,7 @@ function App() {
       <header className="mb-8 w-full text-center">
         <div className="flex justify-center items-center gap-3 mb-2" style={{ display: 'flex', justifyContent: 'center' }}>
           <Stethoscope size={36} color="var(--color-primary)" />
-          <h1 className="title">DermaLens AI</h1>
+          <h1 className="title">DermaXai</h1>
         </div>
         <p className="subtitle">
           Análisis dermatológico impulsado por Inteligencia Artificial
@@ -68,7 +68,7 @@ function App() {
       </main>
       
       <footer style={{ marginTop: 'auto', padding: '2rem 0', textAlign: 'center', color: 'var(--color-text-muted)', fontSize: '0.85rem' }}>
-        &copy; {new Date().getFullYear()} DermaLens AI. Solo para fines demostrativos y educativos.
+        &copy; {new Date().getFullYear()} DermaXai. Solo para fines demostrativos y educativos.
       </footer>
     </div>
   );

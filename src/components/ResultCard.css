@@ -204,13 +204,16 @@
   left: 0;
   right: 0;
   bottom: 0;
+  pointer-events: none;
+}
+
+.xai-overlay.gradcam {
   /* Grid de pixeles + Colores vivos para el mapa de calor */
   background: 
     repeating-linear-gradient(to right, transparent, transparent 18px, rgba(0, 0, 0, 0.5) 18px, rgba(0, 0, 0, 0.5) 20px),
     repeating-linear-gradient(to bottom, transparent, transparent 18px, rgba(0, 0, 0, 0.5) 18px, rgba(0, 0, 0, 0.5) 20px),
     radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.95) 0%, rgba(255, 165, 0, 0.85) 25%, rgba(255, 255, 0, 0.7) 45%, rgba(0, 255, 0, 0.3) 70%, transparent 90%);
   mix-blend-mode: hard-light;
-  pointer-events: none;
   /* Animación con 'steps' para imitar un renderizado por bloques pixelados */
   animation: pulse-heatmap 1.5s infinite alternate steps(5);
 }
