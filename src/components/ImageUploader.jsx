@@ -25,7 +25,7 @@ export default function ImageUploader({ onImageSelect }) {
 
   const processFile = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
-    
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);
@@ -61,7 +61,7 @@ export default function ImageUploader({ onImageSelect }) {
   return (
     <div className="glass-panel animate-fade-in" style={{ padding: '2rem', width: '100%', maxWidth: '500px', margin: '0 auto' }}>
       {!preview ? (
-        <div 
+        <div
           className={`uploader-zone ${isDragging ? 'dragging' : ''}`}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
@@ -69,12 +69,12 @@ export default function ImageUploader({ onImageSelect }) {
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
         >
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            style={{ display: 'none' }} 
-            accept="image/*" 
-            onChange={handleChange} 
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            accept="image/*"
+            onChange={handleChange}
           />
           <div className="uploader-content">
             <div className="icon-circle">
@@ -90,61 +90,71 @@ export default function ImageUploader({ onImageSelect }) {
           <div className="preview-mini" style={{ marginBottom: '1.5rem', borderRadius: '8px', overflow: 'hidden', height: '200px', border: '1px solid var(--color-border)' }}>
             <img src={preview} alt="Selected lesion" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
-          
+
           <h3 style={{ marginBottom: '1.2rem', color: 'var(--color-text-main)', textAlign: 'center' }}>Datos Clínicos del Paciente</h3>
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <div style={{ display: 'flex', gap: '1rem' }}>
               <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
                 <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Edad (años)</label>
-                <input 
-                  type="number" 
-                  value={age} 
-                  onChange={(e) => setAge(e.target.value)} 
-                  required 
+                <input
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(e.target.value)}
+                  required
                   min="0"
                   max="120"
                   style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
                   placeholder="Ej. 45"
                 />
               </div>
-              
+
               <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
                 <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Sexo</label>
-                <select 
-                  value={sex} 
-                  onChange={(e) => setSex(e.target.value)} 
+                <select
+                  value={sex}
+                  onChange={(e) => setSex(e.target.value)}
                   required
                   style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
                 >
                   <option value="" style={{ color: 'black' }}>Seleccione...</option>
-                  <option value="m" style={{ color: 'black' }}>Masculino</option>
-                  <option value="f" style={{ color: 'black' }}>Femenino</option>
-                  <option value="o" style={{ color: 'black' }}>Otro</option>
+                  <option value="male" style={{ color: 'black' }}>Masculino</option>
+                  <option value="female" style={{ color: 'black' }}>Femenino</option>
+                  <option value="unknown" style={{ color: 'black' }}>Desconocido</option>
                 </select>
               </div>
             </div>
-            
+
             <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
               <label style={{ fontSize: '0.85rem', color: 'var(--color-text-muted)' }}>Localización de la Lesión</label>
-              <select 
-                value={location} 
-                onChange={(e) => setLocation(e.target.value)} 
-                required 
+              <select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                required
                 style={{ padding: '0.75rem', borderRadius: '6px', border: '1px solid var(--color-border)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }}
               >
                 <option value="" style={{ color: 'black' }}>Seleccione...</option>
-                <option value="tronco" style={{ color: 'black' }}>Tronco</option>
-                <option value="espalda" style={{ color: 'black' }}>Espalda</option>
-                <option value="extremidad_superior" style={{ color: 'black' }}>Extremidad superior</option>
-                <option value="extremidad_inferior" style={{ color: 'black' }}>Extremidad inferior</option>
                 <option value="abdomen" style={{ color: 'black' }}>Abdomen</option>
+                <option value="acral" style={{ color: 'black' }}>Acral</option>
+                <option value="back" style={{ color: 'black' }}>Espalda</option>
+                <option value="chest" style={{ color: 'black' }}>Pecho / Tórax</option>
+                <option value="ear" style={{ color: 'black' }}>Oreja</option>
+                <option value="face" style={{ color: 'black' }}>Cara</option>
+                <option value="foot" style={{ color: 'black' }}>Pie</option>
+                <option value="genital" style={{ color: 'black' }}>Genital</option>
+                <option value="hand" style={{ color: 'black' }}>Mano</option>
+                <option value="lower extremity" style={{ color: 'black' }}>Extremidad inferior</option>
+                <option value="neck" style={{ color: 'black' }}>Cuello</option>
+                <option value="scalp" style={{ color: 'black' }}>Cuero cabelludo</option>
+                <option value="trunk" style={{ color: 'black' }}>Tronco</option>
+                <option value="unknown" style={{ color: 'black' }}>Desconocido</option>
+                <option value="upper extremity" style={{ color: 'black' }}>Extremidad superior</option>
               </select>
             </div>
-            
+
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-              <button 
-                type="button" 
-                className="btn btn-outline" 
+              <button
+                type="button"
+                className="btn btn-outline"
                 onClick={() => { setPreview(null); setSelectedFile(null); }}
                 style={{ flex: 1, justifyContent: 'center' }}
               >
